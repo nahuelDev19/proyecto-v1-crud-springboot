@@ -4,32 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Repository;
+
 import com.nahuel.avanza1.proyecto1.entitys.Producto;
 
+@Repository
 public class ProductoRepository {
 
 
     
     private List<Producto> productos= new ArrayList<>();
 
-    /**
-    * Inicializa la lista de productos con algunos valores predeterminados.
-    * Esta lista se utiliza para almacenar los productos disponibles en el sistema.
-    */
-        public void creearProductos(){
-        productos= List.of(
-            new Producto(1L,"manzana",2, 1000),
-            new Producto(2L,"uvas",2, 1000),
-            new Producto(3L,"pera",4, 1000),
-            new Producto(4L,"mandarina",5, 1000),
-            new Producto(5L,"melon",21, 1000),
-            new Producto(6L,"mango",4, 1000),
-            new Producto(7L,"durazno",7, 1000)
 
-        );
-    }
 
-    // metodo para mostrar todos los elementos de la lista
+
 
     public List<Producto> listar(){
         return productos;
@@ -81,22 +69,19 @@ public class ProductoRepository {
 
     // metodo de actualizacion de productos
 
-    public Producto update(Producto producto){
-        int idp= 0;
-        Long id=0L;
-        for(int i=0;i<productos.size();i++){
-            if(productos.get(i).getId()== producto.getId()){
-                id=producto.getId();
-                break;
+    public Producto update(Producto producto) {
+        for (int i = 0; i < productos.size(); i++) {
+            Producto existingProducto = productos.get(i);
+            if (existingProducto.getId().equals(producto.getId())) {
+                existingProducto.setNombre(producto.getNombre());
+                existingProducto.setPrecio(producto.getPrecio());
+                existingProducto.setCantidad(producto.getCantidad());
+                return existingProducto; // Retorna el producto actualizado
             }
         }
-        Producto pro= new Producto();
-        pro.setId(id);
-        pro.setNombre(producto.getNombre());
-        pro.setPrecio(producto.getPrecio());
-        pro.setCantidad(producto.getCantidad());
-        productos.set(idp, pro);
-        return pro;
+        
+        return null; 
     }
+    
 
 }
